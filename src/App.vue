@@ -4,17 +4,36 @@
       Тудушки
     </div>
     
-    <div class="app__actions">
-      <button
-        @click="addGroup()"
-      >
-        Добавить группу
-      </button>
+    <template v-if="isWebSqlSupported">
+      <div class="app__actions">
+        <button
+          @click="addGroup()"
+        >
+          Добавить группу
+        </button>
+      </div>
+
+      <filters />
+
+      <board />
+    </template>
+
+    <div
+      v-else
+      class="app__unsupported"
+    >
+      <p>
+        В вашем браузере приложение работать не может.
+        <b>Скорее всего у вас не поддерживается Web SQL.</b>
+      </p>
+      <p>
+        Проверить это, а также узнать, в каких браузерах поддерживается Web SQL,
+        можно <a href="https://caniuse.com/#search=web%20sql" target="_blank">здесь</a>.
+      </p>
+      <p>
+        Приходите сюда с поддерживаемым браузером.
+      </p>
     </div>
-
-    <filters />
-
-    <board />
   </div>
 </template>
 
@@ -29,9 +48,18 @@ export default {
     Board,
     Filters,
   },
+  data: () => ({
+    isWebSqlSupported: true,
+  }),
   async mounted() {
     // Инициализация БД и первая загрузка данных
-    await db.init();
+    try {
+      await db.init();
+    } catch (err) {
+      console.error(err);
+      this.isWebSqlSupported = false;
+      return;
+    }
     await this.$store.dispatch('fetchData');
   },
   methods: {
@@ -66,4 +94,12 @@ body, html
 
   &__actions
     margin: 16px
+
+  &__unsupported
+    $warning: #FE5F55
+    border: 2px solid $warning
+    background: lighten($warning, 30)
+    margin: 16px
+    padding: 4px 16px
+    border-radius: 4px
 </style>
