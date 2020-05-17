@@ -30,10 +30,14 @@ export default {
     Filters,
   },
   async mounted() {
+    // Инициализация БД и первая загрузка данных
     await db.init();
     await this.$store.dispatch('fetchData');
   },
   methods: {
+    /**
+     * Добавление новой группы
+     */
     async addGroup() {
       await db.groups.createItem();
       await this.$store.dispatch('fetchData');

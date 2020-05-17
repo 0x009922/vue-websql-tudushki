@@ -1,10 +1,16 @@
 import Model from './Model';
 
+/**
+ * Модель, отвечающая за особенности работы с таблицей todos
+ */
 export default class extends Model {
   constructor(db) {
     super(db, 'todos');
   }
 
+  /**
+   * Инициализация таблицы, если ещё нет
+   */
   async init() {
     await this._db.query(`
       create table if not exists todos (
@@ -21,6 +27,9 @@ export default class extends Model {
     `);
   }
 
+  /**
+   * Перегрузка чтения записей. Нужна для обработки boolean-значения из SQLite
+   */
   async readItems() {
     const items = await super.readItems();
     return items.map((item) => ({
@@ -29,6 +38,11 @@ export default class extends Model {
     }));
   }
 
+  /**
+   * Перегрузка обновления элемента. Нужна для обработки boolean-поля done
+   * @param {*} id 
+   * @param {*} data 
+   */
   async updateItem(id, data) {
     if ('done' in data) {
       data.done = data.done ? 1 : 0;

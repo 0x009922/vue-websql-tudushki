@@ -1,10 +1,16 @@
 import Model from './Model';
 
+/**
+ * Модель, отвечающая за особенности работы с таблицей groups
+ */
 export default class extends Model {
   constructor(db) {
     super(db, 'groups');
   }
 
+  /**
+   * Создание таблицы, если ещё нет
+   */
   async init() {
     await this._db.query(`
       create table if not exists groups (
@@ -14,6 +20,10 @@ export default class extends Model {
     `);
   }
 
+  /**
+   * Перегрузка удаления группы. Нужна для ручного обнуления group_id
+   * у зависимых todos.
+   */
   async deleteItem(id) {
     await super.deleteItem(id);
 

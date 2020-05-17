@@ -42,6 +42,9 @@
 <script>
 import { debounce } from '../utils';
 
+/**
+ * Фильтры
+ */
 export default {
   name: 'Filters',
   computed: {
@@ -52,10 +55,15 @@ export default {
       get() {
         return this.$store.state.filterTodoTitle;
       },
+      // Обновляю значение в хранилище не сразу, а чуть отложенно
       set: debounce(function (val) {
         this.$store.commit('updateTitleFilter', val);
       }, 700),
     },
+    /**
+     * В своём роде "прокси" для значения done
+     * Подменяет null на "none"
+     */
     done: {
       get() {
         const source = this.$store.state.filterTodoDone;
@@ -91,7 +99,7 @@ export default {
   padding: 16px
   display: flex
   flex-direction: column
-  align-items: start
+  align-items: flex-start
 
   &__title
     font-size: 20px

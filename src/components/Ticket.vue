@@ -108,12 +108,17 @@ import db from '../db';
 import Confirm from './Confirm';
 import { mapState } from 'vuex';
 
+/**
+ * Карточка, тикет, Todo.
+ * Отображение и редактирование.
+ */
 export default {
   name: 'Ticket',
   components: {
     Confirm,
   },
   props: {
+    // Источник данных, todo из хранилища
     source: {
       type: Object,
       required: true,
@@ -121,11 +126,16 @@ export default {
   },
   data() {
     return {
+      // локальный done
       done: null,
+      // локальный title
       title: null,
+      // локальный description
       description: null,
 
+      // Происходит ли редактирование
       isEditing: false,
+      // Подтверждается ли удаление карточки
       confirmDeletion: false,
     };
   },
@@ -133,6 +143,7 @@ export default {
     ...mapState([
       'transposingTodoId',
     ]),
+    // Пак изменений для сохранения
     changes() {
       const entries = [];
 
@@ -148,19 +159,29 @@ export default {
     },
   },
   created() {
+    // Установка исходных данных при создании, до монтирования
     this.resetSourceData();
   },
   methods: {
+    /**
+     * Сброс данных к исходным, сохранённым
+     */
     resetSourceData() {
       ['done', 'title', 'description'].forEach((prop) => {
         this.$data[prop] = this.source[prop];
       });
     },
+    /**
+     * Сохранение изменений в БД
+     */
     async saveChanges() {
       await db.todos.updateItem(this.source.id, this.changes);
       this.$store.dispatch('fetchData');
       this.isEditing = false;
     },
+    /**
+     * Удаление Todo из БД
+     */
     async deleteTodo() {
       await db.todos.deleteItem(this.source.id);
       this.$store.dispatch('fetchData');
@@ -220,7 +241,7 @@ export default {
 
   &__inputs
     display: flex
-    align-items: start
+    align-items: flex-start
 
     input[type="checkbox"]
       margin-top: 18px

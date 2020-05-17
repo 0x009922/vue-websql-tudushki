@@ -90,17 +90,24 @@ import { mapGetters, mapMutations, mapActions } from 'vuex';
 import db from '../db';
 import Confirm from './Confirm';
 
+/**
+ * Группа карточек. Включает редактирование группы
+ */
 export default {
   name: 'BoardGroup',
   components: {
     Confirm,
   },
   props: {
+    // ID группы, которая отображается
     groupId: Number,
   },
   data: () => ({
+    // Имя группы, которое можно будет редактировать
     name: null,
+    // Показывать ли подтверждение удаления
     confirmDeletion: false,
+    // Редактируется ли имя группы
     isEditing: false,
   }),
   computed: {
@@ -112,6 +119,8 @@ export default {
     group() {
       return this.groupsMap[this.groupId] || null;
     },
+
+    // Пак изменений для сохранения
     changes() {
       if (this.group && this.group.name !== this.name) {
         return { name: this.name };
@@ -119,6 +128,7 @@ export default {
       return null;
     },
 
+    // Находится ли перемещаемый todo в этой группе
     isTransposingTargetInThisGroup() {
       const { group_id: id = null } = this.transposingTarget || {};
       return id === this.groupId;
@@ -126,6 +136,7 @@ export default {
   },
   created() {
     if (this.group) {
+      // Если это не группа "вне групп", то устанавливаю исходное название
       this.name = this.group.name;
     }
   },
@@ -136,21 +147,25 @@ export default {
     ...mapActions([
       'fetchData',
     ]),
+    // Добавление новой карточки в группу
     async createTodo() {
       await db.todos.createItem({
         group_id: this.groupId,
       });
       await this.fetchData();
     },
+    // Сохранение изменений (нового имени группы)
     async saveChanges() {
       await db.groups.updateItem(this.groupId, this.changes);
       await this.fetchData();
       this.isEditing = false;
     },
+    // Удаление группы
     async deleteGroup() {
       await db.groups.deleteItem(this.groupId);
       await this.fetchData();
     },
+    // Перемещение выбранной todo в эту группу
     async transposeTodo() {
       await db.todos.updateItem(this.transposingTarget.id, {
         group_id: this.groupId,
@@ -185,7 +200,7 @@ export default {
     margin-bottom: 16px
     display: flex
     flex-direction: column
-    align-items: start
+    align-items: flex-start
     &-input-label
       font-size: 12px
       margin-bottom: 4px

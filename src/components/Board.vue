@@ -20,6 +20,9 @@ import Group from './Group';
 import Ticket from './Ticket';
 import { mapGetters } from 'vuex';
 
+/**
+ * Доска с группами карточек
+ */
 export default {
   name: 'Board',
   components: {
