@@ -17,7 +17,7 @@ export default class extends Model {
   async deleteItem(id) {
     await super.deleteItem(id);
 
-    // Делаю вручную ON DELETE SET NULL у todos, не работает автоматически почему-то
+    // Делаю вручную ON DELETE SET NULL у todos, автоматически это почему-то не работает
     await this._db.query('update todos set group_id = null where group_id = ?', [id]);
   }
 }

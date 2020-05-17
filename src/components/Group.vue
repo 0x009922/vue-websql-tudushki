@@ -141,7 +141,6 @@ export default {
         group_id: this.groupId,
       });
       await this.fetchData();
-      // this.$store.dispatch('createTodo', { group_id: this.groupId });
     },
     async saveChanges() {
       await db.groups.updateItem(this.groupId, this.changes);
@@ -165,7 +164,6 @@ export default {
 
 <style lang="sass" scoped>
 .board-group
-  // border: 1px solid black
   background: #E0E0E0
   padding: 16px
   display: flex
@@ -181,7 +179,6 @@ export default {
 
   &--null
     background: darken(white, 5)
-    // border: no
 
   &__name
     font-size: 20px
@@ -198,8 +195,6 @@ export default {
       display: flex
       button + button
         margin-left: 4px
-    // button
-    //   margin-top: 4px
 
   &__actions
     margin-top: 16px

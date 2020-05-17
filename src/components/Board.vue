@@ -1,16 +1,5 @@
 <template>
   <div class="board">
-    <!-- {{ groupedTodos }} -->
-
-    <!-- <ul>
-      <li
-        v-for="(todos, groupId) in groupedTodos"
-        :key="groupId"
-      >
-        {{ groupId || 'null' }} - {{ todos }}
-      </li>
-    </ul> -->
-
     <group
       v-for="[groupId, todos] in filteredGroupedTodos"
       :key="groupId"
@@ -27,8 +16,6 @@
 </template>
 
 <script>
-/* eslint-disable vue/no-unused-components */
-// import store from '../store';
 import Group from './Group';
 import Ticket from './Ticket';
 import { mapGetters } from 'vuex';
@@ -53,7 +40,7 @@ export default {
   padding: 16px
   gap: 16px
   grid-template-columns: repeat(auto-fit, minmax(300px, 400px))
-  // justify-content: start
+
   &__todo + .board__todo
     margin-top: 8px
 </style>

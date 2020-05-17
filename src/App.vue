@@ -19,8 +19,6 @@
 </template>
 
 <script>
-// import { onMounted } from '@vue/composition-api';
-// import { onMounted } from 'vue';
 import db from './db';
 import Board from './components/Board';
 import Filters from './components/Filters';
@@ -56,14 +54,12 @@ body, html
   font-family: Avenir, Helvetica, Arial, sans-serif
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
-  // text-align: center
   color: #2c3e50
-  // margin-top: 60px
+
   &__title
     margin: 16px
     font-size: 34px
 
   &__actions
     margin: 16px
-
 </style>

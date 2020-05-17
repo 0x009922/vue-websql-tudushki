@@ -104,13 +104,9 @@
 </template>
 
 <script>
-// import { reactive, watch, onUpdated, computed } from 'vue';
-// import store from '../store';
-// import { debounce } from '../utils';
 import db from '../db';
 import Confirm from './Confirm';
 import { mapState } from 'vuex';
-// import useDependent from '../compositions/use-dependent';
 
 export default {
   name: 'Ticket',
@@ -151,20 +147,6 @@ export default {
         : Object.fromEntries(entries);
     },
   },
-  watch: {
-    // source: {
-    //   immediate: true,
-    //   handler(val) {
-    //     this.done = val.done;
-    //     this.note = val.note;
-    //   },
-    // },
-    // changes(val) {
-    //   if (val) {
-    //     this.debouncedSave();
-    //   }
-    // },
-  },
   created() {
     this.resetSourceData();
   },
@@ -177,12 +159,7 @@ export default {
     async saveChanges() {
       await db.todos.updateItem(this.source.id, this.changes);
       this.$store.dispatch('fetchData');
-      // await this.$store.dispatch('updateTodo', {
-      //   id: this.source.id,
-      //   data: this.changes,
-      // });
       this.isEditing = false;
-      // this.resetSourceData();
     },
     async deleteTodo() {
       await db.todos.deleteItem(this.source.id);
@@ -210,15 +187,6 @@ export default {
   overflow: hidden
   padding: 8px
   background: white
-  // display: flex
-  // align-items: start
-
-  // textarea
-  //   flex-grow: 1
-
-  // &:hover
-  //   .ticket__preview-description
-  //     white-space: normal
 
   &--done
     border-color: #1B998B
@@ -229,7 +197,6 @@ export default {
   &__preview
     display: flex
     &-check
-      // margin-right: 8px
       display: flex
       align-items: center
       justify-content: center

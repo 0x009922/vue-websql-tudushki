@@ -85,11 +85,9 @@ export default {
 
 .filters
   margin: 16px
-  // border: 1px solid red
   background: darken(white, 5)
   border: 2px dashed lighten(black, 45)
   border-radius: 4px
-  // color: white
   padding: 16px
   display: flex
   flex-direction: column
@@ -100,7 +98,6 @@ export default {
     margin-bottom: 16px
 
   &__attention
-    // margin-left: 16px
     animation: filtersAttentionAnimation 1s infinite ease
     color: #EE6123
 
